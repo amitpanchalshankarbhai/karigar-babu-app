@@ -96,9 +96,9 @@ const FAQ = ({navigation}: any) => {
           onPress={() => {
             let number = '';
             if (Platform.OS === 'ios') {
-              number = 'telprompt:${091123456789}';
+              number = 'telprompt:${09687347050}';
             } else {
-              number = 'tel:${091123456789}';
+              number = 'tel:${09687347050}';
             }
             Linking.openURL(number);
           }}>

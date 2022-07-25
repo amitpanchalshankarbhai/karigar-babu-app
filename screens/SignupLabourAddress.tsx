@@ -43,6 +43,7 @@ const SignupLabourAddress = ({navigation, route}: any) => {
   const [emptyArea, setEmptyArea] = useState(false);
   const [emptyWorkPrice, setEmptyWorkPrice] = useState(false);
   const [emptyWokerType, setEmptyWorkerType] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
   const {t, i18n} = useTranslation();
 
   useEffect(() => {
@@ -72,6 +73,7 @@ const SignupLabourAddress = ({navigation, route}: any) => {
   }, [selectedState]);
 
   const onSaveLabour = async () => {
+    setShowLoader(true);
     const requestBody = {
       full_name: route?.params?.requestBody?.full_name,
       mobile: route.params.requestBody.mobile,
@@ -87,6 +89,7 @@ const SignupLabourAddress = ({navigation, route}: any) => {
     };
 
     const res = await LabourObj.saveContractor(requestBody);
+    setShowLoader(false);
     if (res) {
       await setStoreValue({
         key: 'userInfo',
@@ -108,7 +111,6 @@ const SignupLabourAddress = ({navigation, route}: any) => {
     userWorkType == undefined
       ? setEmptyWorkerType(true)
       : setEmptyWorkerType(false);
-    debugger;
     if (
       selectedState &&
       selectedCity &&
@@ -116,7 +118,6 @@ const SignupLabourAddress = ({navigation, route}: any) => {
       workPrice &&
       userWorkType
     ) {
-      debugger;
       onSaveLabour();
     }
   };
@@ -345,6 +346,24 @@ const SignupLabourAddress = ({navigation, route}: any) => {
                   </Text>
                 )}
               </View>
+              {showLoader && <View style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: 70,
+                    height: 70,
+                    resizeMode: 'cover',
+                  }}
+                  source={{
+                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
+                  }}
+                />
+              </View>}
               <TouchableOpacity
                 onPress={() => {
                   validateForm();

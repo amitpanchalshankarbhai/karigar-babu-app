@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -7,22 +7,21 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import {RadioButton} from 'react-native-paper';
+import { RadioButton } from 'react-native-paper';
 import '../common/i18n';
-import {useTranslation} from 'react-i18next';
-import {getStoreValue, setStoreValue} from '../common/LocalStorage';
+import { useTranslation } from 'react-i18next';
+import { getStoreValue, setStoreValue } from '../common/LocalStorage';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ASSET_BASE_URL} from '../URL';
-const Language = ({navigation}: any) => {
+const Language = ({ navigation }: any) => {
   const [radioEnabled, setRadioEnabled] = useState({
     Gujrati: false,
     Hindi: false,
     English: true,
   });
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [currentLanguage, setLanguage] = useState('English');
 
@@ -40,7 +39,6 @@ const Language = ({navigation}: any) => {
       const token = await getStoreValue('token');
       let userInfo: any = await getStoreValue('userInfo');
       userInfo = JSON.parse(userInfo);
-      debugger;
       if (userType == 'labour' && phoneNo && token && userInfo?.full_name) {
         navigation.navigate('Labour');
       } else if (
@@ -49,28 +47,25 @@ const Language = ({navigation}: any) => {
         token &&
         userInfo?.full_name
       ) {
-        debugger;
         navigation.navigate('Contractor');
       }
     };
     getUserData();
   }, []);
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <ScrollView>
-        <View style={{backgroundColor: 'white', height: hp('110%')}}>
-          <View style={styles.DashboardMainContainer}>
-            <View
-              style={{
-                width: wp('100%'),
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{fontSize: 18, fontWeight: '600'}}>
-                {t('language')}
-              </Text>
-            </View>
+        <View style={{ backgroundColor: 'white', height: hp('110%') }}>
+          <View
+            style={{
+              marginTop:'17%',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text style={{ fontSize: 18, fontWeight: '600' }}>
+              {t('language')}
+            </Text>
           </View>
 
           <Image
@@ -114,7 +109,7 @@ const Language = ({navigation}: any) => {
               });
             }}>
             <View style={styles.paymentMehtodTypeContainer}>
-              <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View style={{ display: 'flex', flexDirection: 'row' }}>
                 <View
                   style={{
                     display: 'flex',
@@ -133,7 +128,7 @@ const Language = ({navigation}: any) => {
                     alignItems: 'center',
                     marginLeft: 22,
                   }}>
-                  <Text style={{fontSize: 16, fontWeight: '600'}}>English</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '600' }}>English</Text>
                 </View>
               </View>
               <View>
@@ -173,7 +168,7 @@ const Language = ({navigation}: any) => {
               });
             }}>
             <View style={styles.paymentMehtodTypeContainer}>
-              <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View style={{ display: 'flex', flexDirection: 'row' }}>
                 <View
                   style={{
                     display: 'flex',
@@ -192,7 +187,7 @@ const Language = ({navigation}: any) => {
                     alignItems: 'center',
                     marginLeft: 22,
                   }}>
-                  <Text style={{fontSize: 16, fontWeight: '600'}}>Gujrati</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '600' }}>Gujrati</Text>
                 </View>
               </View>
               <View>
@@ -232,7 +227,7 @@ const Language = ({navigation}: any) => {
               });
             }}>
             <View style={styles.paymentMehtodTypeContainer}>
-              <View style={{display: 'flex', flexDirection: 'row'}}>
+              <View style={{ display: 'flex', flexDirection: 'row' }}>
                 <View
                   style={{
                     display: 'flex',
@@ -251,7 +246,7 @@ const Language = ({navigation}: any) => {
                     alignItems: 'center',
                     marginLeft: 22,
                   }}>
-                  <Text style={{fontSize: 16, fontWeight: '600'}}>Hindi</Text>
+                  <Text style={{ fontSize: 16, fontWeight: '600' }}>Hindi</Text>
                 </View>
               </View>
               <View>
@@ -297,14 +292,6 @@ const Language = ({navigation}: any) => {
 };
 
 const styles = StyleSheet.create({
-  DashboardContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: hp('100%'),
-    width: wp('100%'),
-    backgroundColor: '#1c3857',
-  },
   languageContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -324,7 +311,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 50,
     backgroundColor: '#FEA700',
-    shadowOffset: {width: 10, height: 10},
+    shadowOffset: { width: 10, height: 10 },
     shadowColor: 'rgba(228, 151, 4, 0.2)',
     shadowOpacity: 1.0,
     borderRadius: 8,
@@ -334,24 +321,6 @@ const styles = StyleSheet.create({
   },
   otpText: {
     color: 'white',
-  },
-  paymentPaybleTextContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    marginTop: 34,
-    borderRadius: 8,
-    backgroundColor: 'rgba(18, 18, 18, 0.1);',
-    height: 60,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  DashboardMainContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    marginTop: 60,
-    marginLeft: 20,
   },
   paymentMehtodTypeContainer: {
     height: 60,

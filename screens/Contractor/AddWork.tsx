@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,50 +12,53 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {BackArrowIcon} from '../../common/icons';
-import {Dropdown} from 'react-native-element-dropdown';
+import { BackArrowIcon } from '../../common/icons';
+import { Dropdown } from 'react-native-element-dropdown';
 import ContractorApi from '../../services/Contractor.service';
 import IndustryApi from '../../services/Industry.service';
 import CommonApis from '../../services/Common.service';
-import {getStoreValue} from '../../common/LocalStorage';
-import {useTranslation} from 'react-i18next';
+import { getStoreValue } from '../../common/LocalStorage';
+import { useTranslation } from 'react-i18next';
 
 const data = [
-  {label: '1 year', value: '1'},
-  {label: '2 year', value: '2'},
-  {label: '3 year', value: '3'},
-  {label: '4 year', value: '4'},
-  {label: '5 year', value: '5'},
-  {label: '6 year', value: '6'},
-  {label: '7 year', value: '7'},
-  {label: '8 year', value: '8'},
+  { label: '1 year', value: '1' },
+  { label: '2 year', value: '2' },
+  { label: '3 year', value: '3' },
+  { label: '4 year', value: '4' },
+  { label: '5 year', value: '5' },
+  { label: '6 year', value: '6' },
+  { label: '7 year', value: '7' },
+  { label: '8 year', value: '8' },
 ];
 
 const ContractorObj = new ContractorApi();
 const industryObj = new IndustryApi();
 const LocalityObj = new CommonApis();
 
-const AddWork = ({navigation}: any) => {
+const AddWork = ({ navigation }: any) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [workTitle, setWorkTitle] = useState('');
   const [workCategory, setWorkCategory] = useState('');
+  const [workCategoryValue, setWorkCategoryValue] = useState('');
   const [selectedWorkExperience, setSelectedWorkExperience] = useState('');
   const [selectedWorkDescription, setSelectedWorkDescription] = useState('');
   const [selectedArea, setSelectedArea] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCityValue, setSelectedCityValue] = useState('');
   const [selectedStateId, setSelectedStateId] = useState('');
   const [selectedState, setSelectedState] = useState('');
+  const [selectedStateValue, setSelectedStateValue] = useState('');
   const [selectedSalary, setSelectedSalary] = useState('');
 
   const [industry, setIndustry] = useState<any>([]);
   const [city, setCity] = useState<any>([]);
   const [state, setState] = useState<any>([]);
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   useEffect(() => {
     const getIndustry = async () => {
       const response = await industryObj.getIndustry();
-      const {data} = response.data;
+      const { data } = response.data;
       const industryList: any = [];
       data?.map((industryType: any) => {
         industryList.push({
@@ -127,7 +130,7 @@ const AddWork = ({navigation}: any) => {
                 onPress={() => {
                   navigation.navigate('ContractorDashboard');
                 }}>
-                <View style={{marginTop: 30}}>
+                <View style={{ marginTop: 30 }}>
                   <BackArrowIcon />
                 </View>
               </TouchableOpacity>
@@ -185,7 +188,7 @@ const AddWork = ({navigation}: any) => {
                 dropdownPosition={'bottom'}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 data={industry}
                 search
                 maxHeight={300}
@@ -193,10 +196,11 @@ const AddWork = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={value}
+                value={workCategoryValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
+                  setWorkCategoryValue(item.value);
                   setWorkCategory(item.label);
                   setIsFocus(false);
                 }}
@@ -216,7 +220,7 @@ const AddWork = ({navigation}: any) => {
                 dropdownPosition={'bottom'}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 data={data}
                 search
                 maxHeight={300}
@@ -224,7 +228,7 @@ const AddWork = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={value}
+                value={selectedWorkExperience}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
@@ -259,7 +263,7 @@ const AddWork = ({navigation}: any) => {
                 selectedTextStyle={styles.selectedTextStyle}
                 dropdownPosition={'bottom'}
                 inputSearchStyle={styles.inputSearchStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 iconStyle={styles.iconStyle}
                 data={state}
                 search
@@ -268,11 +272,12 @@ const AddWork = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={value}
+                value={selectedStateValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
                   setSelectedState(item.label);
+                  setSelectedStateValue(item.value);
                   setSelectedStateId(item.value);
                   setIsFocus(false);
                 }}
@@ -290,7 +295,7 @@ const AddWork = ({navigation}: any) => {
                 selectedTextStyle={styles.selectedTextStyle}
                 dropdownPosition={'bottom'}
                 inputSearchStyle={styles.inputSearchStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 iconStyle={styles.iconStyle}
                 data={city}
                 search
@@ -299,11 +304,12 @@ const AddWork = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={value}
+                value={selectedCityValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
                   setSelectedCity(item.label);
+                  setSelectedCityValue(item.value);
                   setIsFocus(false);
                 }}
               />
@@ -457,7 +463,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 50,
     backgroundColor: '#FEA700',
-    shadowOffset: {width: 10, height: 10},
+    shadowOffset: { width: 10, height: 10 },
     shadowColor: 'rgba(228, 151, 4, 0.2)',
     shadowOpacity: 1.0,
     borderRadius: 8,

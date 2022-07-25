@@ -30,6 +30,7 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { Profile } from 'react-native-fbsdk-next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ASSET_BASE_URL } from '../URL';
+import Loader from '../common/Loader';
 const loginIn = new LoginApi();
 
 const Login = ({ navigation }: any) => {
@@ -40,6 +41,7 @@ const Login = ({ navigation }: any) => {
   const [userGoogleInfo, setUserGoogleInfo] = useState({});
   const [loaded, setLoaded] = useState(false);
   const [facebookToken, setFacebookToken] = useState('');
+  const [showLoader, setShowLoader] = useState(false);
   const storeData = async (value: any, userId: any) => {
     try {
       await AsyncStorage.setItem('token', value);
@@ -55,7 +57,9 @@ const Login = ({ navigation }: any) => {
       offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
     });
   }, []);
+
   const onLogin = async () => {
+    setShowLoader(true);
     let selectedLanguage = await getStoreValue('language');
     let requestBody: any = {
       mobile: Number(phoneNo),
@@ -63,6 +67,7 @@ const Login = ({ navigation }: any) => {
     };
     await setStoreValue({ key: 'phoneNo', value: Number(phoneNo) });
     let res = await loginIn.checkUser(requestBody);
+    setShowLoader(false);
     if (res?.data?.data?.userId) {
       storeData(res.data.data.token, res.data.data.userId);
       navigation.navigate('ContractorDashboard');
@@ -192,6 +197,7 @@ const Login = ({ navigation }: any) => {
               </View>
               <View>
                 <TextInput
+                  selectionColor={'#FEA700'}
                   keyboardType={'number-pad'}
                   style={styles.phoneNoInput}
                   maxLength={10}
@@ -219,6 +225,24 @@ const Login = ({ navigation }: any) => {
                   <Text style={styles.otpText}>{t('requestOtp')}</Text>
                 </View>
               </TouchableOpacity>
+              {showLoader && <View style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: 60,
+                    height: 60,
+                    resizeMode: 'cover',
+                  }}
+                  source={{
+                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
+                  }}
+                />
+              </View>}
               {/* <View style={styles.loginButtonBorder}>
               <View style={styles.loginBottomFirstLine} />
               <Text style={styles.signUpText}>{t('signInWith')}</Text>
@@ -321,13 +345,13 @@ const styles = StyleSheet.create({
     marginBottom: hp('50%'),
   },
   loginFirstFieldHeader: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
     marginLeft: 15,
     marginTop: 28,
   },
   loginSecFieldHeader: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: '600',
     marginLeft: 15,
   },

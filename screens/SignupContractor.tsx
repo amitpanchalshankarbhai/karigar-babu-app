@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,21 +12,22 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ScrollView} from 'react-native';
-import {UploadImage} from '../common/icons';
-import {Dropdown} from 'react-native-element-dropdown';
+import { ScrollView } from 'react-native';
+import { UploadImage } from '../common/icons';
+import { Dropdown } from 'react-native-element-dropdown';
 import IndustryApi from '../services/Industry.service';
 import ContractorApi from '../services/Contractor.service';
 import CommonApis from '../services/Common.service';
-import {useTranslation} from 'react-i18next';
-import {getStoreValue} from '../common/LocalStorage';
-import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-import {ASSET_BASE_URL} from '../URL';
+import { useTranslation } from 'react-i18next';
+import { getStoreValue } from '../common/LocalStorage';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { ASSET_BASE_URL } from '../URL';
+import { Container } from 'native-base';
 
 const industryObj = new IndustryApi();
 const LocalityObj = new CommonApis();
-const SignupContractor = ({navigation}: any) => {
+const SignupContractor = ({ navigation }: any) => {
   const [value, setValue] = useState(null);
   const [fullName, setFullName] = useState<string>('');
   const [selectedIndustry, setSelectedIndustry] = useState<string>('');
@@ -49,7 +50,7 @@ const SignupContractor = ({navigation}: any) => {
   const [emptyWorkType, setEmptyWorkType] = useState(false);
   const [emptyPhoto, setEmptyPhoto] = useState(false);
   const [image, setImage] = useState<any>();
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const chooseFile = async () => {
     let options: any = {
@@ -68,7 +69,7 @@ const SignupContractor = ({navigation}: any) => {
     };
     try {
       const result = await launchImageLibrary(options, (response: any) => {
-        if(!response?.didCancel){
+        if (!response?.didCancel) {
           setImage(response?.assets[0]);
         }
       });
@@ -86,7 +87,7 @@ const SignupContractor = ({navigation}: any) => {
       if (phoneNo) {
         setphoneNo(phoneNo);
       }
-      const {data} = response.data;
+      const { data } = response.data;
       const industryList: any = [];
       data?.map((industryType: any) => {
         industryList.push({
@@ -136,8 +137,8 @@ const SignupContractor = ({navigation}: any) => {
         showsVerticalScrollIndicator={false}>
         <View style={styles.LoginContainer}>
           <ScrollView
-            contentContainerStyle={{padding: 10}}
-            style={{flex: 1}}
+            contentContainerStyle={{ padding: 10 }}
+            style={{ flex: 1 }}
             showsVerticalScrollIndicator={false}
             showsHorizontalScrollIndicator={false}>
             <View style={styles.firstPortion}>
@@ -181,7 +182,7 @@ const SignupContractor = ({navigation}: any) => {
                   {image?.uri ? (
                     <Image
                       style={styles.karigarLogo}
-                      source={{uri: image.uri}}
+                      source={{ uri: image.uri }}
                     />
                   ) : (
                     <UploadImage />
@@ -216,7 +217,7 @@ const SignupContractor = ({navigation}: any) => {
                   selectedTextStyle={styles.selectedTextStyle}
                   dropdownPosition={'bottom'}
                   inputSearchStyle={styles.inputSearchStyle}
-                  containerStyle={{marginTop: -38}}
+                  containerStyle={{ marginTop: -38 }}
                   iconStyle={styles.iconStyle}
                   data={industry}
                   search
@@ -249,27 +250,27 @@ const SignupContractor = ({navigation}: any) => {
                   style={styles.phoneNoInput}></TextInput>
               </View>
 
-              <View style={{marginTop: 20, marginLeft: 20}}>
+              <View style={{ marginTop: 20, marginLeft: 20 }}>
                 {emptyFullname && (
-                  <Text style={{color: 'red'}}>
+                  <Text style={{ color: 'red' }}>
                     {t('fullName')} {t('isRequired')}
                     {'*'}
                   </Text>
                 )}
               </View>
 
-              <View style={{marginTop: 10, marginLeft: 20}}>
+              <View style={{ marginTop: 10, marginLeft: 20 }}>
                 {emptyWorkType && (
-                  <Text style={{color: 'red'}}>
+                  <Text style={{ color: 'red' }}>
                     {t('industry')} {t('isRequired')}
                     {'*'}
                   </Text>
                 )}
               </View>
 
-              <View style={{marginTop: 10, marginLeft: 20}}>
+              <View style={{ marginTop: 10, marginLeft: 20 }}>
                 {emptyPhoto && (
-                  <Text style={{color: 'red'}}>
+                  <Text style={{ color: 'red' }}>
                     {t('Photo')} {t('isRequired')}
                     {'*'}
                   </Text>
@@ -395,7 +396,7 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: '#FEA700',
     // boxShadow: '0 21 14 -10 rgba(228, 151, 4, 0.2)',
-    shadowOffset: {width: 10, height: 10},
+    shadowOffset: { width: 10, height: 10 },
     shadowColor: 'rgba(228, 151, 4, 0.2)',
     shadowOpacity: 1.0,
     borderRadius: 8,

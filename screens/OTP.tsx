@@ -33,6 +33,7 @@ const OTP = ({navigation, route}: any) => {
   const [secoundNumber, setSecoundNumber] = useState(otp.toString().charAt(1));
   const [thirdNumber, setThirdNumber] = useState(otp.toString().charAt(2));
   const [forthNumber, setForthNumber] = useState(otp.toString().charAt(3));
+  const [showLoader, setShowLoader] = useState(false);
   const otpInput = useRef(null);
   const {t, i18n} = useTranslation();
   const storeData = async (value: any) => {
@@ -44,7 +45,9 @@ const OTP = ({navigation, route}: any) => {
     }
   };
   const onOtpVerify = async () => {
+    setShowLoader(true);
     let res: any = await loginIn.verifyOtp({otp: route.params.otp, mobile});
+    setShowLoader(false);
     if (res) {
       await storeData(res.data.data.user_id);
     }
@@ -176,6 +179,24 @@ const OTP = ({navigation, route}: any) => {
                   <Text style={styles.otpText}>{t('submit')}</Text>
                 </View>
               </TouchableOpacity>
+              {showLoader && <View style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: 50,
+                    height: 50,
+                    resizeMode: 'cover',
+                  }}
+                  source={{
+                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
+                  }}
+                />
+              </View>}
             </View>
           </View>
         </ScrollView>

@@ -33,7 +33,6 @@ const Payments = ({navigation}: any) => {
         }}>
         <TouchableOpacity
           onPress={async () => {
-            debugger;
             var options = {
               description: 'Credits towards consultation',
               image: 'https://i.imgur.com/3g7nmJC.png',

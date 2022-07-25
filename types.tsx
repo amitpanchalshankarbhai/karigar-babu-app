@@ -26,6 +26,7 @@ export type RootStackParamList = {
   Profile: undefined;
   EditProfile: undefined;
   WorkHistory: undefined;
+  FAQ:undefined;
 };
 
 export type BottomTabParamList = {

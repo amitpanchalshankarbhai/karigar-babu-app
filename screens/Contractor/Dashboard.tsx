@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   Text,
@@ -12,7 +12,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
 import {
   JobIcon,
   WorkApplicant,
@@ -21,23 +21,23 @@ import {
 } from '../../common/icons';
 import Colors from '../../constants/Colors';
 import ContractorApi from '../../services/Contractor.service';
-import {getStoreValue} from '../../common/LocalStorage';
+import { getStoreValue } from '../../common/LocalStorage';
 import moment from 'moment';
-import {useTranslation} from 'react-i18next';
-import {TabView, SceneMap, TabBar} from 'react-native-tab-view';
+import { useTranslation } from 'react-i18next';
+import { TabView, SceneMap, TabBar } from 'react-native-tab-view';
 import Loader from '../../common/Loader';
 import NotFoundData from '../../common/components/NotFoundData';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Pagination from '../../common/components/Pagination';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {DataTable} from 'react-native-paper';
-import {diffYMDHMS} from '../../common/utils';
+import { DataTable } from 'react-native-paper';
+import { diffYMDHMS } from '../../common/utils';
 import AreaSuggestion from '../../common/components/AreaSuggestion';
-import {ASSET_BASE_URL} from '../../URL';
+import { ASSET_BASE_URL } from '../../URL';
 import Dialog from 'react-native-dialog';
 
 const ContractorObj = new ContractorApi();
-const Dashboard = ({navigation, route}: any) => {
+const Dashboard = ({ navigation, route }: any) => {
   const [isWork, setIsWork] = useState(false);
   const [isFocus, setIsFocus] = useState(false);
   const [work, setWork] = useState([]);
@@ -50,24 +50,24 @@ const Dashboard = ({navigation, route}: any) => {
   const [userProfile, setUserProfile] = useState<any>('');
   const [showLogoutDialog, setShowDialog] = useState(false);
   let isJobCreated = route?.params?.isJobCreated;
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const [currentSelectedLanguage, setCurrentSelectedLanguage] =
     useState<any>('');
 
   const SecondRoute = () => (
-    <View style={{flex: 1, backgroundColor: '#673ab7'}} />
+    <View style={{ flex: 1, backgroundColor: '#673ab7' }} />
   );
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {key: 'labour', title: t('karigar')},
-    {key: 'work', title: t('yourWork')},
+    { key: 'labour', title: t('karigar') },
+    { key: 'work', title: t('yourWork') },
   ]);
 
   const language = [
-    {label: 'English', value: '1'},
-    {label: 'Hindi', value: '2'},
-    {label: 'Gujrati', value: '3'},
+    { label: 'English', value: '1' },
+    { label: 'Hindi', value: '2' },
+    { label: 'Gujrati', value: '3' },
   ];
 
   useEffect(() => {
@@ -83,39 +83,36 @@ const Dashboard = ({navigation, route}: any) => {
   }, []);
 
   useEffect(() => {
-    const getCreatedWork = async () => {
-      let userId = await getStoreValue('userId');
-      let language = await getStoreValue('language');
-      const userProfile = await getStoreValue('userProfile');
-
-      setUserProfile(
-        `https://assets.datahayinfotech.com/assets/storage/${userProfile}`,
-      );
-      debugger;
-      let res = await ContractorObj.getCreatedWork({user_id: userId});
-      let laboursInfo = await ContractorObj.getOnlineLabour({
-        user_id: userId,
-      });
-
-      if (laboursInfo?.data?.data) {
+    // setInterval(() => {
+      const getCreatedWork = async () => {
+        let userId = await getStoreValue('userId');
+        let language = await getStoreValue('language');
+        const userProfile = await getStoreValue('userProfile');
+        setUserProfile(
+          `https://assets.datahayinfotech.com/assets/storage/${userProfile}`,
+        );
+        let res = await ContractorObj.getCreatedWork({ user_id: userId });
+        let laboursInfo = await ContractorObj.getOnlineLabour({
+          user_id: userId,
+        });
+        debugger;
+        // console.warn("LaboursInfo",labourInfo);
+        setWork(res?.data?.data);
+        setTotalPages(laboursInfo?.data?.data?.last_page);
+        setLabourInfo(laboursInfo?.data?.data?.data);
         setLoader(false);
-      }
-
-      setWork(res?.data?.data);
-      setTotalPages(laboursInfo?.data?.data?.last_page);
-      setLabourInfo(laboursInfo?.data?.data?.data);
-    };
-    getCreatedWork();
+      };
+      getCreatedWork();
+    // }, 10000);
   }, []);
 
   useEffect(() => {
     const getCreatedWork = async () => {
       let userId = await getStoreValue('userId');
-      let res = await ContractorObj.getCreatedWork({user_id: userId});
+      let res = await ContractorObj.getCreatedWork({ user_id: userId });
       let laboursInfo = await ContractorObj.getOnlineLabour({
         user_id: userId,
       });
-      debugger;
       if (laboursInfo?.status) {
         setLoader(false);
       }
@@ -150,7 +147,7 @@ const Dashboard = ({navigation, route}: any) => {
     if (!work) {
       return (
         <View>
-          <View style={{marginTop: 20}}>
+          <View style={{ marginTop: 20 }}>
             <Text style={styles.createJobTitle}>
               {t('jobCreateTabHeadOne')}
             </Text>
@@ -196,7 +193,7 @@ const Dashboard = ({navigation, route}: any) => {
     } else {
       return (
         <ScrollView>
-          <View style={{height: '100%', marginBottom: 100, elevation: 100}}>
+          <View style={{ height: '100%', marginBottom: 100, elevation: 100 }}>
             <View>
               <Text
                 style={{
@@ -226,18 +223,18 @@ const Dashboard = ({navigation, route}: any) => {
                   }}>
                   <View style={styles.workCardContainer}>
                     <View style={styles.workTitleContainer}>
-                      <View style={{marginLeft: 10}}>
+                      <View style={{ marginLeft: 10 }}>
                         <JobIcon />
                       </View>
-                      <View style={{marginLeft: 10}}>
+                      <View style={{ marginLeft: 10 }}>
                         <View>
                           <Text>{item?.description}</Text>
                         </View>
-                        <View style={{marginTop: 5}}>
+                        <View style={{ marginTop: 5 }}>
                           <Text>
                             <WorkApplicant />
                             {'  '}
-                            <Text style={{marginLeft: 20, color: '#1C3857'}}>
+                            <Text style={{ marginLeft: 20, color: '#1C3857' }}>
                               1
                             </Text>
                           </Text>
@@ -267,8 +264,9 @@ const Dashboard = ({navigation, route}: any) => {
                           marginLeft: 20,
                         }}>
                         <WatchJobIcon />
-                        <Text style={{color: 'rgba(18, 18, 18, 0.35)'}}>
-                          {Math.ceil(hours)} Hours ago
+                        <Text style={{ color: 'rgba(18, 18, 18, 0.35)' }}>
+                         {" "} Created on {moment().format('DD-MMM-YYYY')}
+                          {/* {Math.ceil(hours)} Hours ago */}
                         </Text>
                       </View>
                       <View
@@ -278,7 +276,7 @@ const Dashboard = ({navigation, route}: any) => {
                           alignItems: 'center',
                           marginRight: 20,
                         }}>
-                        <Text style={{color: '#FEA700'}}>{t('viewNow')}</Text>
+                        <Text style={{ color: '#FEA700' }}>{t('viewNow')}</Text>
                         <RightIcon />
                       </View>
                     </View>
@@ -298,24 +296,19 @@ const Dashboard = ({navigation, route}: any) => {
       user_id: userId,
     });
 
-    const offlineRes = await ContractorObj.setOfflineStatus({
-      user_id: item?.unique_id,
+    navigation.navigate('ViewLabour', {
+      jobInfo: item,
+      trialCount: counterRes.data.data.trial,
     });
 
-    if (offlineRes) {
-      navigation.navigate('ViewLabour', {
-        jobInfo: item,
-        trialCount: counterRes.data.data.trial,
-      });
-    }
   };
 
   const Labour = () => {
     return (
       <ScrollView>
-        <View style={{marginBottom: 40}}>
+        <View style={{ marginBottom: 40 }}>
           {loader ? (
-            <View style={{marginTop: -100}}>
+            <View style={{ marginTop: -100 }}>
               <Loader />
             </View>
           ) : (
@@ -343,16 +336,16 @@ const Dashboard = ({navigation, route}: any) => {
                               style={{
                                 height: 65,
                                 width: 65,
-                                borderRadius: 30,
+                                borderRadius: 32.5,
                               }}
                               source={
                                 item.profile_pic
                                   ? {
-                                      uri: `https://assets.datahayinfotech.com/assets/storage/${item.profile_pic}`,
-                                    }
+                                    uri: `https://assets.datahayinfotech.com/assets/storage/${item.profile_pic}`,
+                                  }
                                   : {
-                                      uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/userIcon.png`,
-                                    }
+                                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/userIcon.png`,
+                                  }
                               }
                             />
                             <View
@@ -366,17 +359,17 @@ const Dashboard = ({navigation, route}: any) => {
                               }}
                             />
                           </View>
-                          <View style={{marginLeft: 15}}>
+                          <View style={{ marginLeft: 15 }}>
                             <View>
                               <Text>{item?.full_name}</Text>
                             </View>
                             <View>
-                              <Text style={{color: 'rgba(18, 18, 18, 0.3);'}}>
+                              <Text style={{ color: 'rgba(18, 18, 18, 0.3);' }}>
                                 {item?.industry}
                               </Text>
                             </View>
                             <View>
-                              <Text style={{color: '#07B104', fontSize: 12}}>
+                              <Text style={{ color: '#07B104', fontSize: 12 }}>
                                 Online
                               </Text>
                             </View>
@@ -388,7 +381,7 @@ const Dashboard = ({navigation, route}: any) => {
                             display: 'flex',
                             flexDirection: 'row',
                           }}>
-                          <Text style={{color: '#FEA700', marginTop: -2}}>
+                          <Text style={{ color: '#FEA700', marginTop: -2 }}>
                             {t('bookLabour')}
                           </Text>
                           <RightIcon />
@@ -405,21 +398,7 @@ const Dashboard = ({navigation, route}: any) => {
               )}
             </View>
           )}
-          <DataTable>
-            <DataTable.Pagination
-              page={page}
-              numberOfPages={totalPages}
-              onPageChange={page => {
-                setPage(page);
-              }}
-              label={`${page + 1} of ${totalPages}`}
-              showFastPaginationControls
-              numberOfItemsPerPageList={numberOfItemsPerPageList}
-              // numberOfItemsPerPage={numberOfItemsPerPage}
-              onItemsPerPageChange={onItemsPerPageChange}
-              selectPageDropdownLabel={'Rows per page'}
-            />
-          </DataTable>
+
         </View>
       </ScrollView>
     );
@@ -431,8 +410,8 @@ const Dashboard = ({navigation, route}: any) => {
   });
 
   return (
-    <View style={{backgroundColor: 'white', height: '100%'}}>
-      <View style={{backgroundColor: 'white', height: '100%'}}>
+    <View style={{ backgroundColor: 'white', height: '100%' }}>
+      <View style={{ backgroundColor: 'white', height: '100%' }}>
         <View style={styles.DashboardMainContainer}>
           <View>
             <TouchableOpacity
@@ -492,7 +471,7 @@ const Dashboard = ({navigation, route}: any) => {
                 changeLanguage(item.label);
               }}
             />
-            <View style={{marginRight: 40, marginLeft: 10}}>
+            <View style={{ marginRight: 40, marginLeft: 10 }}>
               <AntDesign
                 name="logout"
                 size={24}
@@ -541,18 +520,18 @@ const Dashboard = ({navigation, route}: any) => {
         </View>
 
         <TabView
-          navigationState={{index, routes}}
+          navigationState={{ index, routes }}
           renderScene={renderScene}
           onIndexChange={setIndex}
-          initialLayout={{width: layout.width}}
+          initialLayout={{ width: layout.width }}
           renderTabBar={props => (
             <TabBar
               {...props}
-              indicatorStyle={{backgroundColor: '#1c3857'}}
-              style={{backgroundColor: 'white'}}
-              renderLabel={({focused, route}) => {
+              indicatorStyle={{ backgroundColor: '#1c3857' }}
+              style={{ backgroundColor: 'white' }}
+              renderLabel={({ focused, route }) => {
                 return (
-                  <Text style={focused ? {color: '#1c3857'} : {color: 'grey'}}>
+                  <Text style={focused ? { color: '#1c3857' } : { color: 'grey' }}>
                     {route.title}
                   </Text>
                 );
@@ -576,11 +555,26 @@ const Dashboard = ({navigation, route}: any) => {
           }}
           style={styles.createWork}>
           <Text>
-            <AntDesign name="plus" size={24} color="white" onPress={() => {}} />
+            <AntDesign name="plus" size={24} color="white" onPress={() => { }} />
           </Text>
-          <Text style={{color: 'white'}}> {t('createWork')}</Text>
+          <Text style={{ color: 'white' }}> {t('createWork')}</Text>
         </TouchableOpacity>
       </View>
+      <DataTable>
+        <DataTable.Pagination
+          page={page}
+          numberOfPages={totalPages}
+          onPageChange={page => {
+            setPage(page);
+          }}
+          label={`${page + 1} of ${totalPages}`}
+          showFastPaginationControls
+          numberOfItemsPerPageList={numberOfItemsPerPageList}
+          // numberOfItemsPerPage={numberOfItemsPerPage}
+          onItemsPerPageChange={onItemsPerPageChange}
+          selectPageDropdownLabel={'Rows per page'}
+        />
+      </DataTable>
     </View>
   );
 };
@@ -706,7 +700,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 50,
     backgroundColor: '#FEA700',
-    shadowOffset: {width: 10, height: 10},
+    shadowOffset: { width: 10, height: 10 },
     shadowColor: 'rgba(228, 151, 4, 0.2)',
     shadowOpacity: 1.0,
     borderRadius: 8,
@@ -760,7 +754,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     marginVertical: 20,
     shadowColor: Colors.mainBlueColor.color,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
     marginBottom: 7,
     elevation: 2,
@@ -771,7 +765,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginHorizontal: 5,
     shadowColor: Colors.mainBlueColor.color,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
     elevation: 2,
     marginVertical: 2,

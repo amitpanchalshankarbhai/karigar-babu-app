@@ -80,6 +80,7 @@
       "contractorDetails":"Contractor Details",
       "requirement":"Requirement",
       "benefit":"Benefits",
+      "editProfile":"Edit Profile",
       "applicationSubmitted":"Application Submitted",
       "applicationSubmittedSuccessfully":"Your application submitted successfully",
       "waitUntillContractorAccept":"It is in process, kindly wait untill contractor accept",

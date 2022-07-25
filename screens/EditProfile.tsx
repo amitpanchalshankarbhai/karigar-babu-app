@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -13,31 +13,32 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {BackArrowIcon, UploadImage} from '../common/icons';
-import {Dropdown} from 'react-native-element-dropdown';
+import { BackArrowIcon, UploadImage } from '../common/icons';
+import { Dropdown } from 'react-native-element-dropdown';
 import ContractorApi from '../services/Contractor.service';
 import IndustryApi from '../services/Industry.service';
 import CommonApis from '../services/Common.service';
-import {getStoreValue} from '../common/LocalStorage';
-import {useTranslation} from 'react-i18next';
-import {launchImageLibrary} from 'react-native-image-picker';
+import { getStoreValue, setStoreValue } from '../common/LocalStorage';
+import { useTranslation } from 'react-i18next';
+import { launchImageLibrary } from 'react-native-image-picker';
+import Loader from '../common/Loader';
 
 const data = [
-  {label: '1 year', value: '1'},
-  {label: '2 year', value: '2'},
-  {label: '3 year', value: '3'},
-  {label: '4 year', value: '4'},
-  {label: '5 year', value: '5'},
-  {label: '6 year', value: '6'},
-  {label: '7 year', value: '7'},
-  {label: '8 year', value: '8'},
+  { label: '1 year', value: '1' },
+  { label: '2 year', value: '2' },
+  { label: '3 year', value: '3' },
+  { label: '4 year', value: '4' },
+  { label: '5 year', value: '5' },
+  { label: '6 year', value: '6' },
+  { label: '7 year', value: '7' },
+  { label: '8 year', value: '8' },
 ];
 
 const ContractorObj = new ContractorApi();
 const industryObj = new IndustryApi();
 const LocalityObj = new CommonApis();
 
-const EditProfile = ({navigation}: any) => {
+const EditProfile = ({ navigation }: any) => {
   const [value, setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const [fullName, setfullName] = useState('');
@@ -47,19 +48,24 @@ const EditProfile = ({navigation}: any) => {
   const [selectedArea, setSelectedArea] = useState('');
   const [selectedCity, setSelectedCity] = useState('');
   const [selectedState, setSelectedState] = useState('');
-  const [selectedSalary, setSelectedSalary] = useState('');
+  const [selectedIndustry, setSelectedIndustry] = useState('');
   const [selectedStateId, setSelectedStateId] = useState('');
-
+  const [userInfo, setUserInfo] = useState<any>();
   const [industry, setIndustry] = useState<any>([]);
   const [city, setCity] = useState<any>([]);
   const [state, setState] = useState<any>([]);
   const [image, setImage] = useState<any>({});
   const [selectedCityId, setSelectedCityId] = useState('');
-  const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
+  const [workCategoryValue, setWorkCategoryValue] = useState('');
+  const [selectedCityValue, setSelectedCityValue] = useState('');
+  const [selectedStateValue, setSelectedStateValue] = useState('');
+  const [userProfile, setUserProfile] = useState<any>('');
+  const [showLoader, setShowLoader] = useState(false);
   useEffect(() => {
     const getIndustry = async () => {
       const response = await industryObj.getIndustry();
-      const {data} = response.data;
+      const { data } = response.data;
       data?.map((industryType: any) => {
         industry.push({
           label: industryType.work_name,
@@ -72,6 +78,7 @@ const EditProfile = ({navigation}: any) => {
 
   useEffect(() => {
     const getCityAndState = async () => {
+      setShowLoader(true);
       let cities: any = [];
       let stateList: any = [];
       const stateResponse = await LocalityObj.getState();
@@ -82,16 +89,31 @@ const EditProfile = ({navigation}: any) => {
         });
       });
       setState(stateList);
+      const userDetails: any = await getStoreValue('userInfo');
+      console.warn(userDetails)
+      setUserInfo(JSON.parse(userDetails));
+      const userInfo = JSON.parse(userDetails);
       const cityResponse = await LocalityObj.getCities({
-        state_id: selectedStateId,
+        state_id: userInfo.state,
       });
-      cityResponse.data.data.map((cityObj: any) => {
+      cityResponse?.data?.data?.map((cityObj: any) => {
         cities?.push({
           label: cityObj.city_name,
           value: cityObj.id,
         });
       });
       setCity(cities);
+      setfullName(userInfo?.full_name);
+      industry.find((industryItem: any) => industryItem.label === userInfo.industry && setWorkCategoryValue(industryItem.value));
+      stateList.find((stateItem: any) => stateItem.value === userInfo.state && setSelectedStateValue(stateItem.value));
+      cities.find((cityItem: any) => cityItem.value === userInfo.city && setSelectedCityValue(cityItem.value));
+      setPhoneNo(userInfo?.mobile);
+      console.warn(`phoneNo ${phoneNo}`);
+      setUserProfile(
+        `https://assets.datahayinfotech.com/assets/storage/${userInfo?.fileName}`,
+      );
+      setSelectedArea(userInfo?.locality);
+      setShowLoader(false);
     };
     getCityAndState();
   }, [selectedState]);
@@ -101,16 +123,29 @@ const EditProfile = ({navigation}: any) => {
     const requestBody = {
       full_name: fullName,
       mobile: phoneNo,
-      state: selectedState,
-      city: selectedCity,
+      state: selectedStateValue,
+      city: selectedCityValue,
       locality: selectedArea,
-      industry: workCategory,
-      user_type: 1,
-      // profile_pic: filename,
+      industry: workCategoryValue,
+      user_type: userInfo.user_type,
+      profile_pic: '',
       user_id: userId,
     };
+    const userDetail: any = await getStoreValue('userInfo');
+    let oldUserData = JSON.parse(userDetail);
+    oldUserData = {
+      ...oldUserData,
+      full_name: fullName,
+      state: selectedStateValue,
+      city: selectedCityValue,
+      locality: selectedArea,
+      industry: workCategoryValue,
+    }
+    await setStoreValue({
+      key: 'userInfo',
+      value: JSON.stringify(oldUserData),
+    });
     const res = await ContractorObj.editUserProfile(requestBody);
-
     if (res) {
       navigation.navigate('ContractorDashboard', {
         isJobCreated: true,
@@ -134,7 +169,10 @@ const EditProfile = ({navigation}: any) => {
     };
     try {
       const result = await launchImageLibrary(options, (response: any) => {
-        setImage(response.assets[0]);
+        if (!response?.didCancel) {
+          setUserProfile("");
+          setImage(response?.assets[0]);
+        }
       });
     } catch (err) {
       console.log(err);
@@ -153,7 +191,7 @@ const EditProfile = ({navigation}: any) => {
                 onPress={() => {
                   navigation.navigate('Profile');
                 }}>
-                <View style={{marginTop: 30}}>
+                <View style={{ marginTop: 30 }}>
                   <BackArrowIcon />
                 </View>
               </TouchableOpacity>
@@ -186,6 +224,9 @@ const EditProfile = ({navigation}: any) => {
                 width: '100%',
               }}></View>
             <View>
+              {showLoader && <View style={{ marginTop: -100 }}>
+                <Loader />
+              </View>}
               <TouchableOpacity
                 onPress={() => {
                   // pickImage();
@@ -200,10 +241,10 @@ const EditProfile = ({navigation}: any) => {
                     width: '100%',
                     marginTop: 50,
                   }}>
-                  {image?.uri ? (
+                  {image?.uri || userProfile ? (
                     <Image
                       style={styles.karigarLogo}
-                      source={{uri: image.uri}}
+                      source={{ uri: userProfile ? userProfile : image?.uri }}
                     />
                   ) : (
                     <UploadImage />
@@ -218,6 +259,7 @@ const EditProfile = ({navigation}: any) => {
               <TextInput
                 selectionColor={'#FEA700'}
                 style={styles.phoneNoInput}
+                value={fullName}
                 onChangeText={(value: any) => {
                   setfullName(value);
                 }}></TextInput>
@@ -234,7 +276,7 @@ const EditProfile = ({navigation}: any) => {
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 data={industry}
                 search
                 maxHeight={300}
@@ -242,10 +284,11 @@ const EditProfile = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={value}
+                value={workCategoryValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
+                  setWorkCategoryValue(item.value);
                   setWorkCategory(item.label);
                   setIsFocus(false);
                 }}
@@ -262,6 +305,7 @@ const EditProfile = ({navigation}: any) => {
                 maxLength={10}
                 keyboardType="number-pad"
                 selectionColor={'#FEA700'}
+                value={phoneNo}
                 style={styles.phoneNoInput}
                 onChangeText={(value: any) => {
                   setPhoneNo(value);
@@ -279,7 +323,7 @@ const EditProfile = ({navigation}: any) => {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 iconStyle={styles.iconStyle}
                 data={state}
                 search
@@ -288,10 +332,11 @@ const EditProfile = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={selectedState}
+                value={selectedStateValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
+                  setSelectedStateValue(item.value);
                   setSelectedState(item.label);
                   setSelectedStateId(item.value);
                   setIsFocus(false);
@@ -309,7 +354,7 @@ const EditProfile = ({navigation}: any) => {
                 placeholderStyle={styles.placeholderStyle}
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
-                containerStyle={{marginTop: -38}}
+                containerStyle={{ marginTop: -38 }}
                 iconStyle={styles.iconStyle}
                 data={city}
                 search
@@ -318,10 +363,11 @@ const EditProfile = ({navigation}: any) => {
                 valueField="value"
                 placeholder={!isFocus ? 'Select item' : '...'}
                 searchPlaceholder="Search..."
-                value={selectedCity}
+                value={selectedCityValue}
                 onFocus={() => setIsFocus(true)}
                 onBlur={() => setIsFocus(false)}
                 onChange={item => {
+                  setSelectedCityValue(item.value);
                   setSelectedCity(item.label);
                   setSelectedCityId(item.value);
                   setIsFocus(false);
@@ -335,6 +381,7 @@ const EditProfile = ({navigation}: any) => {
             </View>
             <View>
               <TextInput
+                value={selectedArea}
                 onChangeText={(value: any) => {
                   setSelectedArea(value);
                 }}
@@ -353,6 +400,7 @@ const EditProfile = ({navigation}: any) => {
             </View>
           </TouchableOpacity>
         </ScrollView>
+
       </View>
     </ScrollView>
   );
@@ -401,6 +449,7 @@ const styles = StyleSheet.create({
     height: 100,
     width: 100,
     resizeMode: 'contain',
+    borderRadius: 50
   },
   starterHeader: {
     fontSize: 24,
@@ -462,7 +511,7 @@ const styles = StyleSheet.create({
     width: '90%',
     height: 50,
     backgroundColor: '#FEA700',
-    shadowOffset: {width: 10, height: 10},
+    shadowOffset: { width: 10, height: 10 },
     shadowColor: 'rgba(228, 151, 4, 0.2)',
     shadowOpacity: 1.0,
     borderRadius: 8,

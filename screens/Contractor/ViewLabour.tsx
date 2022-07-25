@@ -36,6 +36,7 @@ import {ASSET_BASE_URL} from '../../URL';
 const ContractorObj = new ContractorApi();
 
 const ViewLabour = ({navigation, route}: any) => {
+  debugger;
   const [showDescription, setShowDescription] = useState(false);
   const [isWork, setIsWork] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
@@ -43,7 +44,7 @@ const ViewLabour = ({navigation, route}: any) => {
   const [loader, setLoader] = useState(true);
   const jobInfo = route?.params?.jobInfo ? route.params.jobInfo : {};
   const sheetRef: any = React.useRef(null);
-  const trialCount = route?.params?.trialCount;
+  const trialCount = route?.params?.trialCount
   const {t, i18n} = useTranslation();
   useEffect(() => {
     const getLabourInfo = async () => {
@@ -375,10 +376,10 @@ const ViewLabour = ({navigation, route}: any) => {
                     // );
 
                     var options = {
-                      description: 'Credits towards consultation',
+                      description: 'Get Karigar details',
                       image: 'https://i.imgur.com/3g7nmJC.png',
                       currency: 'INR',
-                      key: 'rzp_test_1cCs05GTChSvvz',
+                      key: 'rzp_live_j0OazXXBI2YTUf',
                       amount: '100',
                       name: 'Karigar Babu',
                       prefill: {
@@ -389,8 +390,10 @@ const ViewLabour = ({navigation, route}: any) => {
                       theme: {color: '#203c54'},
                     };
                     await RazorpayCheckout.open(options)
-                      .then((data: any) => {
-                        console.log(data + 'data');
+                      .then(async (data: any) => {
+                        await ContractorObj.setOfflineStatus({
+                          user_id: jobInfo?.unique_id,
+                        });
 
                         // handle success
                         // alert(`Success: ${data.razorpay_payment_id}`);

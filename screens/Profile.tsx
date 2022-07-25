@@ -30,16 +30,19 @@ const Profile = ({navigation}: any) => {
   const [showEnabledHeart, setShowEnabledHeart] = useState(true);
   const [userType, setUserType] = useState<any>('');
   const [userProfile, setUserProfile] = useState<any>('');
+  const [userInfo,setUserInfo] = useState<any>();
   useEffect(() => {
     const getUserType = async () => {
       const userType = await getStoreValue('userType');
       const userProfile = await getStoreValue('userProfile');
-
+      const userInfo :any= await getStoreValue('userInfo');
+      setUserInfo(JSON.parse(userInfo));
       setUserProfile(
         `https://assets.datahayinfotech.com/assets/storage/${userProfile}`,
       );
       setUserType(userType);
     };
+   
     getUserType();
   }, []);
   return (
@@ -50,7 +53,7 @@ const Profile = ({navigation}: any) => {
             <TouchableOpacity
               onPress={() => {
                 userType === 'contractor'
-                  ? navigation.navigate('ContractorDashboard')
+                  ? navigation.navigate('Contractor')
                   : navigation.navigate('Labour');
               }}>
               <BackArrowIcon />
@@ -85,7 +88,7 @@ const Profile = ({navigation}: any) => {
             </View>
             <View>
               <View>
-                <Text>Ramesh bhai suthar</Text>
+                <Text>{userInfo?.full_name}</Text>
               </View>
               <View>
                 <Text
@@ -93,7 +96,7 @@ const Profile = ({navigation}: any) => {
                     fontSize: 13,
                     color: '#121212',
                   }}>
-                  Furniture
+                  {userInfo?.industry}
                 </Text>
               </View>
             </View>

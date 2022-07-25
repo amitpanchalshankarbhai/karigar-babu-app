@@ -8,15 +8,15 @@ import {
   DefaultTheme,
   DarkTheme,
 } from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import {ColorSchemeName, View} from 'react-native';
+import { ColorSchemeName, View } from 'react-native';
 import AddWork from '../screens/Contractor/AddWork';
 import Login from '../screens/Login';
 
 import OTP from '../screens/OTP';
 import UserType from '../screens/UserType';
-import {RootStackParamList} from '../types';
+import { RootStackParamList } from '../types';
 import BottomTabNavigator, {
   TabOneLabourNavigator,
 } from './LabourBottomTabNavigator';
@@ -30,14 +30,15 @@ import SignupLabour from '../screens/SignupLabour';
 import OnboardingOne from '../screens/OnBording/OnboardingOne';
 import OnboardingTwo from '../screens/OnBording/OnboardingTwo';
 import Language from '../screens/Lanuguage';
-import {TabOneContractorNavigator} from './ContractorBottomNavigator';
+import { TabOneContractorNavigator } from './ContractorBottomNavigator';
 import SignupContractorAddress from '../screens/SignupContractorAddress';
 import SignupLabourAddress from '../screens/SignupLabourAddress';
-import {getStoreValue} from '../common/LocalStorage';
+import { getStoreValue } from '../common/LocalStorage';
 import Dashboard from '../screens/Contractor/Dashboard';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
 import WorkHistoty from '../screens/WorkHistoty';
+import FAQ from '../screens/FAQ';
 
 export default function Navigation({
   colorScheme,
@@ -72,7 +73,7 @@ function RootNavigator() {
   }, []);
 
   const horizontalAnimation = {
-    cardStyleInterpolator: ({current, layouts}: any) => {
+    cardStyleInterpolator: ({ current, layouts }: any) => {
       return {
         cardStyle: {
           transform: [
@@ -89,7 +90,7 @@ function RootNavigator() {
   };
 
   return (
-    <Stack.Navigator screenOptions={{headerShown: false}}>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
       {token && userInfo ? (
         <>
           <Stack.Screen
@@ -106,6 +107,18 @@ function RootNavigator() {
             name="Profile"
             options={horizontalAnimation}
             component={Profile}
+          />
+          <Stack.Screen
+            name="FAQ"
+            component={FAQ}
+            options={{
+              headerShown: false,
+              headerTitle: 'Add Work',
+              headerTintColor: 'white',
+              headerStyle: {
+                backgroundColor: '#1a104c',
+              },
+            }}
           />
           <Stack.Screen
             name="EditProfile"

@@ -13,16 +13,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {ScrollView} from 'react-native';
-import {UploadImage} from '../common/icons';
 import {Dropdown} from 'react-native-element-dropdown';
-import IndustryApi from '../services/Industry.service';
 import ContractorApi from '../services/Contractor.service';
 import CommonApis from '../services/Common.service';
 import {useTranslation} from 'react-i18next';
 import {getStoreValue, setStoreValue} from '../common/LocalStorage';
 import AreaSuggestion from '../common/components/AreaSuggestion';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {ASSET_BASE_URL} from '../URL';
 
 const ContractorObj = new ContractorApi();
 
@@ -49,6 +46,7 @@ const SignupContractorAddress = ({navigation, route}: any) => {
     city: false,
     area: false,
   });
+  const [showLoader, setShowLoader] = useState(false);
   const [emptyState, setEmptyState] = useState(false);
   const [emptyCity, setEmptyCity] = useState(false);
   const [emptyArea, setEmptyArea] = useState(false);
@@ -81,6 +79,7 @@ const SignupContractorAddress = ({navigation, route}: any) => {
   }, [selectedState]);
 
   const onSaveContractor = async () => {
+    setShowLoader(true);
     const requestBody = {
       full_name: route?.params?.requestBody?.full_name,
       mobile: route.params.requestBody.mobile,
@@ -94,6 +93,7 @@ const SignupContractorAddress = ({navigation, route}: any) => {
 
     let accessToken: any = await getStoreValue('token');
     const res = await ContractorObj.saveContractor(requestBody);
+    setShowLoader(false);
     if (res?.data?.status) {
       await setStoreValue({
         key: 'userInfo',
@@ -263,6 +263,24 @@ const SignupContractorAddress = ({navigation, route}: any) => {
                   </Text>
                 )}
               </View>
+              {showLoader && <View style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+                <Image
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    width: 70,
+                    height: 70,
+                    resizeMode: 'cover',
+                  }}
+                  source={{
+                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
+                  }}
+                />
+              </View>}
 
               <TouchableOpacity
                 onPress={e => {
