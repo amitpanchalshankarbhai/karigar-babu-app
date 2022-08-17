@@ -95,13 +95,13 @@ const Dashboard = ({ navigation, route }: any) => {
         let laboursInfo = await ContractorObj.getOnlineLabour({
           user_id: userId,
         });
-        debugger;
-        // console.warn("LaboursInfo",labourInfo);
+        // console.warn("LaboursInfo",laboursInfo);
         setWork(res?.data?.data);
         setTotalPages(laboursInfo?.data?.data?.last_page);
         setLabourInfo(laboursInfo?.data?.data?.data);
         setLoader(false);
       };
+      
       getCreatedWork();
     // }, 10000);
   }, []);
@@ -160,7 +160,7 @@ const Dashboard = ({ navigation, route }: any) => {
             <Image
               style={{
                 width: '80%',
-                height: 300,
+                height: 200,
                 marginLeft: '10%',
                 display: 'flex',
                 justifyContent: 'center',
@@ -295,12 +295,10 @@ const Dashboard = ({ navigation, route }: any) => {
     const counterRes = await ContractorObj.getFreeTrialCounter({
       user_id: userId,
     });
-
     navigation.navigate('ViewLabour', {
       jobInfo: item,
-      trialCount: counterRes.data.data.trial,
+      trialCount: counterRes?.data?.data?.trial,
     });
-
   };
 
   const Labour = () => {
@@ -449,7 +447,7 @@ const Dashboard = ({ navigation, route }: any) => {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               containerStyle={{
-                marginTop: -38,
+                marginTop: -26,
                 borderBottomLeftRadius: 25,
                 borderBottomRightRadius: 25,
                 width: 80,
@@ -560,7 +558,7 @@ const Dashboard = ({ navigation, route }: any) => {
           <Text style={{ color: 'white' }}> {t('createWork')}</Text>
         </TouchableOpacity>
       </View>
-      <DataTable>
+      {totalPages && <DataTable>
         <DataTable.Pagination
           page={page}
           numberOfPages={totalPages}
@@ -574,7 +572,7 @@ const Dashboard = ({ navigation, route }: any) => {
           onItemsPerPageChange={onItemsPerPageChange}
           selectPageDropdownLabel={'Rows per page'}
         />
-      </DataTable>
+      </DataTable>}
     </View>
   );
 };

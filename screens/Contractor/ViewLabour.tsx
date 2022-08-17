@@ -36,7 +36,6 @@ import {ASSET_BASE_URL} from '../../URL';
 const ContractorObj = new ContractorApi();
 
 const ViewLabour = ({navigation, route}: any) => {
-  debugger;
   const [showDescription, setShowDescription] = useState(false);
   const [isWork, setIsWork] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
@@ -377,7 +376,7 @@ const ViewLabour = ({navigation, route}: any) => {
 
                     var options = {
                       description: 'Get Karigar details',
-                      image: 'https://i.imgur.com/3g7nmJC.png',
+                      image: 'https://karigarbabu.com/logo.png',
                       currency: 'INR',
                       key: 'rzp_live_j0OazXXBI2YTUf',
                       amount: '100',

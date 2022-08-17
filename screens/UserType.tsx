@@ -63,7 +63,7 @@ const UserType = ({ navigation }: any) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         width: 150,
-                        height: 160,
+                        height: 150,
                         marginBottom: 20,
                         padding: 15,
                         backgroundColor: 'white',
@@ -75,7 +75,7 @@ const UserType = ({ navigation }: any) => {
                         borderRadius: 15,
                         marginBottom: 20,
                         width: 150,
-                        height: 160,
+                        height: 150,
                         padding: 15,
                         display: 'flex',
                         justifyContent: 'center',
@@ -116,8 +116,8 @@ const UserType = ({ navigation }: any) => {
                         justifyContent: 'center',
                         alignItems: 'center',
                         width: 150,
-                        height: 160,
-                        marginBottom: 20,
+                        height: 150,
+                        // marginBottom: 20,
                         padding: 15,
                         backgroundColor: 'white',
                         elevation: 3,
@@ -126,9 +126,9 @@ const UserType = ({ navigation }: any) => {
                         backgroundColor: 'white',
                         borderRadius: 15,
                         elevation: 3,
-                        marginBottom: 20,
+                        // marginBottom: 20,
                         width: 150,
-                        height: 160,
+                        height: 150,
                         padding: 15,
                         display: 'flex',
                         justifyContent: 'center',
@@ -158,7 +158,7 @@ const UserType = ({ navigation }: any) => {
                 </TouchableOpacity>
               </View>
             </View>
-            <View style={{ marginTop: 10, marginLeft: 20, marginBottom:20 }}>
+            <View style={{ marginLeft: 20 , marginTop:10}}>
               {accountSelected && (
                 <Text style={{ color: 'red' }}>
                   {t('selectWorkType')} {t('isRequired')}
@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop:hp('-2%'),
   },
   otpInputContainer: {
     display: 'flex',
@@ -310,7 +311,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.65)',
   },
   loginFieldContainer: {
-    height: hp('67%'),
+    height: 500,
     width: 314,
     backgroundColor: 'white',
     borderRadius: 18,
@@ -350,6 +351,7 @@ const styles = StyleSheet.create({
     borderBottomColor: 'rgba(0, 0, 0, 0.1);',
   },
   sendOtpBtn: {
+    marginTop:30,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

@@ -30,7 +30,7 @@ const OnboardingOne = ({navigation}: any) => {
           <Image
             style={{
               width: hp('60%'),
-              height: hp('60%'),
+              height: hp('55%'),
               resizeMode: 'cover',
             }}
             source={{

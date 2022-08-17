@@ -34,7 +34,6 @@ const OTP = ({navigation, route}: any) => {
   const [thirdNumber, setThirdNumber] = useState(otp.toString().charAt(2));
   const [forthNumber, setForthNumber] = useState(otp.toString().charAt(3));
   const [showLoader, setShowLoader] = useState(false);
-  const otpInput = useRef(null);
   const {t, i18n} = useTranslation();
   const storeData = async (value: any) => {
     try {
@@ -291,7 +290,7 @@ const styles = StyleSheet.create({
     color: 'rgba(255, 255, 255, 0.65)',
   },
   loginFieldContainer: {
-    height: hp('50%'),
+    height: 380,
     width: 314,
     backgroundColor: 'white',
     borderRadius: 18,

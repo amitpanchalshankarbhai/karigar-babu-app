@@ -197,6 +197,7 @@ const Login = ({ navigation }: any) => {
               </View>
               <View>
                 <TextInput
+                  // ref={}
                   selectionColor={'#FEA700'}
                   keyboardType={'number-pad'}
                   style={styles.phoneNoInput}
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
   loginFieldContainer: {
     display: 'flex',
     justifyContent: 'center',
-    height: hp('42%'),
+    height: 350,
     width: 314,
     backgroundColor: 'white',
     borderRadius: 18,
@@ -348,7 +349,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '600',
     marginLeft: 15,
-    marginTop: 28,
   },
   loginSecFieldHeader: {
     fontSize: 20,

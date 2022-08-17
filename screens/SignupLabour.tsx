@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    height: hp('100%'),
+    height:'100%',
     backgroundColor: '#1c3857',
   },
   fieldsContainer: {
@@ -367,8 +367,8 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: -140,
-    marginTop: -200,
+    height:hp('55%'),
+    marginTop: -110,
   },
   registerHeaderSecoundLine: {
     marginTop: 5,

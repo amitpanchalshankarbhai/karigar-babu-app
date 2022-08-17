@@ -58,7 +58,7 @@ const Language = ({ navigation }: any) => {
         <View style={{ backgroundColor: 'white', height: hp('110%') }}>
           <View
             style={{
-              marginTop:'17%',
+              marginTop: hp('4.5%'),
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center',
@@ -94,196 +94,198 @@ const Language = ({ navigation }: any) => {
             </Text>
           </View>
 
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={async () => {
-              changeLanguage('English');
-              setRadioEnabled({
-                Gujrati: false,
-                Hindi: false,
-                English: true,
-              });
-              await setStoreValue({
-                key: 'language',
-                value: 'en',
-              });
-            }}>
-            <View style={styles.paymentMehtodTypeContainer}>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 20,
-                  }}>
-                  <View style={styles.languageContainer}>
-                    <Text style={styles.languageText}>Eng</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 22,
-                  }}>
-                  <Text style={{ fontSize: 16, fontWeight: '600' }}>English</Text>
-                </View>
-              </View>
-              <View>
-                <RadioButton
-                  value="first"
-                  color="#1C3857"
-                  status={radioEnabled.English ? 'checked' : 'unchecked'}
-                  onPress={async () => {
-                    changeLanguage('English');
-                    setRadioEnabled({
-                      Gujrati: false,
-                      Hindi: false,
-                      English: true,
-                    });
-                    await setStoreValue({
-                      key: 'language',
-                      value: 'en',
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={async () => {
-              setRadioEnabled({
-                Gujrati: true,
-                Hindi: false,
-                English: false,
-              });
-              changeLanguage('Gujrati');
-              await setStoreValue({
-                key: 'language',
-                value: 'gu',
-              });
-            }}>
-            <View style={styles.paymentMehtodTypeContainer}>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 20,
-                  }}>
-                  <View style={styles.languageContainer}>
-                    <Text style={styles.languageText}>Guj</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 22,
-                  }}>
-                  <Text style={{ fontSize: 16, fontWeight: '600' }}>Gujrati</Text>
-                </View>
-              </View>
-              <View>
-                <RadioButton
-                  value="first"
-                  color="#1C3857"
-                  status={radioEnabled.Gujrati ? 'checked' : 'unchecked'}
-                  onPress={async () => {
-                    changeLanguage('Gujrati');
-                    setRadioEnabled({
-                      Gujrati: true,
-                      Hindi: false,
-                      English: false,
-                    });
-                    await setStoreValue({
-                      key: 'language',
-                      value: 'gu',
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            activeOpacity={1}
-            onPress={async () => {
-              changeLanguage('Hindi');
-              setRadioEnabled({
-                Gujrati: false,
-                Hindi: true,
-                English: false,
-              });
-              await setStoreValue({
-                key: 'language',
-                value: 'hi',
-              });
-            }}>
-            <View style={styles.paymentMehtodTypeContainer}>
-              <View style={{ display: 'flex', flexDirection: 'row' }}>
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 20,
-                  }}>
-                  <View style={styles.languageContainer}>
-                    <Text style={styles.languageText}>Hin</Text>
-                  </View>
-                </View>
-                <View
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    marginLeft: 22,
-                  }}>
-                  <Text style={{ fontSize: 16, fontWeight: '600' }}>Hindi</Text>
-                </View>
-              </View>
-              <View>
-                <RadioButton
-                  value="first"
-                  color="#1C3857"
-                  status={radioEnabled.Hindi ? 'checked' : 'unchecked'}
-                  onPress={async () => {
-                    changeLanguage('Hindi');
-                    setRadioEnabled({
-                      Gujrati: false,
-                      Hindi: true,
-                      English: false,
-                    });
-                    await setStoreValue({
-                      key: 'language',
-                      value: 'hi',
-                    });
-                  }}
-                />
-              </View>
-            </View>
-          </TouchableOpacity>
-
-          <View
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View>
             <TouchableOpacity
-              onPress={() => navigation.navigate('OnboardingOne')}
-              style={styles.sendOtpBtn}>
-              <View>
-                <Text style={styles.otpText}>{t('next')}</Text>
+              activeOpacity={1}
+              onPress={async () => {
+                changeLanguage('English');
+                setRadioEnabled({
+                  Gujrati: false,
+                  Hindi: false,
+                  English: true,
+                });
+                await setStoreValue({
+                  key: 'language',
+                  value: 'en',
+                });
+              }}>
+              <View style={styles.paymentMehtodTypeContainer}>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 20,
+                    }}>
+                    <View style={styles.languageContainer}>
+                      <Text style={styles.languageText}>Eng</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 22,
+                    }}>
+                    <Text style={{ fontSize: 16, fontWeight: '600' }}>English</Text>
+                  </View>
+                </View>
+                <View>
+                  <RadioButton
+                    value="first"
+                    color="#1C3857"
+                    status={radioEnabled.English ? 'checked' : 'unchecked'}
+                    onPress={async () => {
+                      changeLanguage('English');
+                      setRadioEnabled({
+                        Gujrati: false,
+                        Hindi: false,
+                        English: true,
+                      });
+                      await setStoreValue({
+                        key: 'language',
+                        value: 'en',
+                      });
+                    }}
+                  />
+                </View>
               </View>
             </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={async () => {
+                setRadioEnabled({
+                  Gujrati: true,
+                  Hindi: false,
+                  English: false,
+                });
+                changeLanguage('Gujrati');
+                await setStoreValue({
+                  key: 'language',
+                  value: 'gu',
+                });
+              }}>
+              <View style={styles.paymentMehtodTypeContainer}>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 20,
+                    }}>
+                    <View style={styles.languageContainer}>
+                      <Text style={styles.languageText}>Guj</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 22,
+                    }}>
+                    <Text style={{ fontSize: 16, fontWeight: '600' }}>Gujrati</Text>
+                  </View>
+                </View>
+                <View>
+                  <RadioButton
+                    value="first"
+                    color="#1C3857"
+                    status={radioEnabled.Gujrati ? 'checked' : 'unchecked'}
+                    onPress={async () => {
+                      changeLanguage('Gujrati');
+                      setRadioEnabled({
+                        Gujrati: true,
+                        Hindi: false,
+                        English: false,
+                      });
+                      await setStoreValue({
+                        key: 'language',
+                        value: 'gu',
+                      });
+                    }}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={async () => {
+                changeLanguage('Hindi');
+                setRadioEnabled({
+                  Gujrati: false,
+                  Hindi: true,
+                  English: false,
+                });
+                await setStoreValue({
+                  key: 'language',
+                  value: 'hi',
+                });
+              }}>
+              <View style={styles.paymentMehtodTypeContainer}>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 20,
+                    }}>
+                    <View style={styles.languageContainer}>
+                      <Text style={styles.languageText}>Hin</Text>
+                    </View>
+                  </View>
+                  <View
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      marginLeft: 22,
+                    }}>
+                    <Text style={{ fontSize: 16, fontWeight: '600' }}>Hindi</Text>
+                  </View>
+                </View>
+                <View>
+                  <RadioButton
+                    value="first"
+                    color="#1C3857"
+                    status={radioEnabled.Hindi ? 'checked' : 'unchecked'}
+                    onPress={async () => {
+                      changeLanguage('Hindi');
+                      setRadioEnabled({
+                        Gujrati: false,
+                        Hindi: true,
+                        English: false,
+                      });
+                      await setStoreValue({
+                        key: 'language',
+                        value: 'hi',
+                      });
+                    }}
+                  />
+                </View>
+              </View>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('OnboardingOne')}
+                style={styles.sendOtpBtn}>
+                <View>
+                  <Text style={styles.otpText}>{t('next')}</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </ScrollView>
@@ -328,7 +330,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 15,
+    marginTop: hp('2%'),
     marginLeft: 20,
     marginRight: 20,
     backgroundColor: 'white',
