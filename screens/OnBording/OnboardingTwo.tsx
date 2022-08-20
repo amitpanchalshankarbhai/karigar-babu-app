@@ -33,7 +33,7 @@ const OnboardingTwo = ({navigation}: any) => {
               resizeMode: 'cover',
             }}
             source={{
-              uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourGroup.jpg`,
+              uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourGroup.webp`,
             }}
           />
           <View

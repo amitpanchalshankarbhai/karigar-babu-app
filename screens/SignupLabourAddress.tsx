@@ -21,6 +21,7 @@ import LabourApi from '../services/Labour.service';
 import {setStoreValue} from '../common/LocalStorage';
 import AreaSuggestion from '../common/components/AreaSuggestion';
 import {ASSET_BASE_URL} from '../URL';
+import LoaderImage from '../assets/loader.gif';
 const LocalityObj = new CommonApis();
 const industryObj = new IndustryApi();
 const LabourObj = new LabourApi();
@@ -138,7 +139,7 @@ const SignupLabourAddress = ({navigation, route}: any) => {
                 <Image
                   style={styles.karigarLogo}
                   source={{
-                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourCutting.png`,
+                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourCutting.webp`,
                   }}
                 />
               </View>
@@ -359,9 +360,7 @@ const SignupLabourAddress = ({navigation, route}: any) => {
                     height: 70,
                     resizeMode: 'cover',
                   }}
-                  source={{
-                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
-                  }}
+                  source={LoaderImage}
                 />
               </View>}
               <TouchableOpacity

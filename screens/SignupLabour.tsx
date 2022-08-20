@@ -151,7 +151,7 @@ const SignupLabour = ({navigation}: any) => {
                 <Image
                   style={styles.karigarLogo}
                   source={{
-                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourCutting.png`,
+                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourCutting.webp`,
                   }}
                 />
               </View>

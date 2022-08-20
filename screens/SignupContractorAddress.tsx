@@ -20,6 +20,7 @@ import {useTranslation} from 'react-i18next';
 import {getStoreValue, setStoreValue} from '../common/LocalStorage';
 import AreaSuggestion from '../common/components/AreaSuggestion';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import LoaderImage from '../assets/loader.gif';
 
 const ContractorObj = new ContractorApi();
 
@@ -90,9 +91,9 @@ const SignupContractorAddress = ({navigation, route}: any) => {
       user_type: 2,
       ...route.params.requestBody.profile_pic,
     };
-
     let accessToken: any = await getStoreValue('token');
     const res = await ContractorObj.saveContractor(requestBody);
+    debugger;
     setShowLoader(false);
     if (res?.data?.status) {
       await setStoreValue({
@@ -132,7 +133,7 @@ const SignupContractorAddress = ({navigation, route}: any) => {
                 <Image
                   style={styles.karigarLogo}
                   source={{
-                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.png`,
+                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.webp`,
                   }}
                 />
               </View>
@@ -276,9 +277,7 @@ const SignupContractorAddress = ({navigation, route}: any) => {
                     height: 70,
                     resizeMode: 'cover',
                   }}
-                  source={{
-                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
-                  }}
+                  source={LoaderImage}
                 />
               </View>}
 

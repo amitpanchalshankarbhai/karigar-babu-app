@@ -64,6 +64,7 @@ const Online = ({navigation}: any) => {
       if (response?.data?.data) {
         setIsEnabled(response.data.data.status === 0 ? false : true);
       }
+      debugger;
       let language = await getStoreValue('language');
       const currentLanuage =
         language === 'en' ? 'English' : language === 'hi' ? 'Hindi' : 'Gujrati';
@@ -183,8 +184,8 @@ const Online = ({navigation}: any) => {
                     <Dialog.Button
                       onPress={async () => {
                         try {
-                          await AsyncStorage.removeItem('token');
-                          await AsyncStorage.removeItem('userInfo');
+                          // await AsyncStorage.removeItem('token');
+                          // await AsyncStorage.removeItem('userInfo');
                         } catch (exception) {
                           console.log(exception);
                         }
@@ -211,7 +212,7 @@ const Online = ({navigation}: any) => {
                   resizeMode: 'contain',
                 }}
                 source={{
-                  uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourCutting.png`,
+                  uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/LabourCutting.webp`,
                 }}
               />
             </View>

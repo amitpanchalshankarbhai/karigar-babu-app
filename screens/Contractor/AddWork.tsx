@@ -19,6 +19,7 @@ import IndustryApi from '../../services/Industry.service';
 import CommonApis from '../../services/Common.service';
 import { getStoreValue } from '../../common/LocalStorage';
 import { useTranslation } from 'react-i18next';
+import AreaSuggestion from '../../common/components/AreaSuggestion';
 
 const data = [
   { label: '1 year', value: '1' },
@@ -50,6 +51,7 @@ const AddWork = ({ navigation }: any) => {
   const [selectedState, setSelectedState] = useState('');
   const [selectedStateValue, setSelectedStateValue] = useState('');
   const [selectedSalary, setSelectedSalary] = useState('');
+  const [selectedCityId, setSelectedCityId] = useState('');
 
   const [industry, setIndustry] = useState<any>([]);
   const [city, setCity] = useState<any>([]);
@@ -314,20 +316,30 @@ const AddWork = ({ navigation }: any) => {
                 }}
               />
             </View>
-            <View>
-              <Text style={styles.phoneNo}>
-                {t('area')} <Text style={styles.mandatoryText}>*</Text>
-              </Text>
-            </View>
-            <View>
+              <View>
+                <Text style={styles.phoneNo}>
+                  {t('area')} <Text style={styles.mandatoryText}>*</Text>
+                </Text>
+              </View>
+              {/* <View>
               <TextInput
                 onChangeText={(value: any) => {
                   setSelectedArea(value);
                 }}
                 selectionColor={'#FEA700'}
                 style={styles.phoneNoInput}></TextInput>
-            </View>
+            </View> */}
+              <ScrollView>
+                <AreaSuggestion
+                  isNotSignup={true}
+                  setLocation={(value: any) => {
+                    let des = value.split(',');
 
+                    setSelectedArea(des[0]);
+                  }}
+                />
+              </ScrollView>
+           
             <View>
               <Text style={styles.phoneNo}>
                 {t('workPrice')} <Text style={styles.mandatoryText}>*</Text>

@@ -30,7 +30,7 @@ import { AccessToken, LoginManager } from 'react-native-fbsdk-next';
 import { Profile } from 'react-native-fbsdk-next';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { ASSET_BASE_URL } from '../URL';
-import Loader from '../common/Loader';
+import LoaderImage from '../assets/loader.gif';
 const loginIn = new LoginApi();
 
 const Login = ({ navigation }: any) => {
@@ -70,7 +70,12 @@ const Login = ({ navigation }: any) => {
     setShowLoader(false);
     if (res?.data?.data?.userId) {
       storeData(res.data.data.token, res.data.data.userId);
-      navigation.navigate('ContractorDashboard');
+      if(res.data.data.userType === 1) {
+        navigation.navigate('Labour');
+      } else if(res.data.data.userType === 2) {
+        navigation.navigate('Contractor');
+      }
+      
     } else {
       storeData(res.data.data.token, '');
       navigation.navigate('Otp', { otp: res.data.data.otp, mobile: phoneNo });
@@ -170,7 +175,7 @@ const Login = ({ navigation }: any) => {
                 <Image
                   style={styles.karigarLogo}
                   source={{
-                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.png`,
+                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.webp`,
                   }}
                 />
               </View>
@@ -239,9 +244,7 @@ const Login = ({ navigation }: any) => {
                     height: 60,
                     resizeMode: 'cover',
                   }}
-                  source={{
-                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
-                  }}
+                  source={LoaderImage}
                 />
               </View>}
               {/* <View style={styles.loginButtonBorder}>

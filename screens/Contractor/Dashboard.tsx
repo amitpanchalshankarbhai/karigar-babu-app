@@ -49,6 +49,8 @@ const Dashboard = ({ navigation, route }: any) => {
   const layout = useWindowDimensions();
   const [userProfile, setUserProfile] = useState<any>('');
   const [showLogoutDialog, setShowDialog] = useState(false);
+  const [page, setPage] = React.useState(1);
+  const [actualPage, setActualPage] = React.useState(1);
   let isJobCreated = route?.params?.isJobCreated;
   const { t, i18n } = useTranslation();
 
@@ -83,7 +85,7 @@ const Dashboard = ({ navigation, route }: any) => {
   }, []);
 
   useEffect(() => {
-    // setInterval(() => {
+    setInterval(() => {
       const getCreatedWork = async () => {
         let userId = await getStoreValue('userId');
         let language = await getStoreValue('language');
@@ -94,17 +96,20 @@ const Dashboard = ({ navigation, route }: any) => {
         let res = await ContractorObj.getCreatedWork({ user_id: userId });
         let laboursInfo = await ContractorObj.getOnlineLabour({
           user_id: userId,
+          page: actualPage
         });
-        // console.warn("LaboursInfo",laboursInfo);
+        console.warn("LaboursInfo",laboursInfo);
         setWork(res?.data?.data);
-        setTotalPages(laboursInfo?.data?.data?.last_page);
-        setLabourInfo(laboursInfo?.data?.data?.data);
+        setTotalPages(laboursInfo?.data?.data?.labourList.last_page);
+        setLabourInfo(laboursInfo?.data?.data?.labourList.data);
+        debugger;
         setLoader(false);
+        setActualPage(1);
       };
       
       getCreatedWork();
-    // }, 10000);
-  }, []);
+    }, 5000);
+  }, [actualPage]);
 
   useEffect(() => {
     const getCreatedWork = async () => {
@@ -118,16 +123,15 @@ const Dashboard = ({ navigation, route }: any) => {
       }
 
       setWork(res?.data?.data);
-      setTotalPages(laboursInfo?.data?.data?.last_page);
+      setTotalPages(laboursInfo?.data?.data?.labourList.last_page);
 
-      setLabourInfo(laboursInfo?.data?.data?.data);
+      setLabourInfo(laboursInfo?.data?.data?.labourList.data);
     };
     getCreatedWork();
   }, [isJobCreated]);
 
   const [currentLanguage, setLanguage] = useState('English');
   const numberOfItemsPerPageList = [5];
-  const [page, setPage] = React.useState(1);
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
     numberOfItemsPerPageList[0],
   );
@@ -342,7 +346,7 @@ const Dashboard = ({ navigation, route }: any) => {
                                     uri: `https://assets.datahayinfotech.com/assets/storage/${item.profile_pic}`,
                                   }
                                   : {
-                                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/userIcon.png`,
+                                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/userIcon.webp`,
                                   }
                               }
                             />
@@ -447,7 +451,7 @@ const Dashboard = ({ navigation, route }: any) => {
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
               containerStyle={{
-                marginTop: -26,
+                marginTop: -38,
                 borderBottomLeftRadius: 25,
                 borderBottomRightRadius: 25,
                 width: 80,
@@ -563,7 +567,9 @@ const Dashboard = ({ navigation, route }: any) => {
           page={page}
           numberOfPages={totalPages}
           onPageChange={page => {
+            setActualPage(page  + 1);
             setPage(page);
+            setLoader(true);
           }}
           label={`${page + 1} of ${totalPages}`}
           showFastPaginationControls

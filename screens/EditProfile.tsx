@@ -22,6 +22,7 @@ import { getStoreValue, setStoreValue } from '../common/LocalStorage';
 import { useTranslation } from 'react-i18next';
 import { launchImageLibrary } from 'react-native-image-picker';
 import Loader from '../common/Loader';
+import AreaSuggestion from '../common/components/AreaSuggestion';
 
 const data = [
   { label: '1 year', value: '1' },
@@ -379,15 +380,16 @@ const EditProfile = ({ navigation }: any) => {
                 {t('area')} <Text style={styles.mandatoryText}>*</Text>
               </Text>
             </View>
-            <View>
-              <TextInput
-                value={selectedArea}
-                onChangeText={(value: any) => {
-                  setSelectedArea(value);
-                }}
-                selectionColor={'#FEA700'}
-                style={styles.phoneNoInput}></TextInput>
-            </View>
+            <ScrollView>
+                <AreaSuggestion
+                  isNotSignup={true}
+                  setLocation={(value: any) => {
+                    let des = value.split(',');
+
+                    setSelectedArea(des[0]);
+                  }}
+                />
+              </ScrollView>
           </View>
           <TouchableOpacity
             onPress={() => {

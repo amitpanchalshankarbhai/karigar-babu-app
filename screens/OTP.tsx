@@ -19,6 +19,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTranslation} from 'react-i18next';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {ASSET_BASE_URL} from '../URL';
+import LoaderImage from '../assets/loader.gif';
 const loginIn = new LoginApi();
 
 const OTP = ({navigation, route}: any) => {
@@ -66,7 +67,7 @@ const OTP = ({navigation, route}: any) => {
                 <Image
                   style={styles.karigarLogo}
                   source={{
-                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.png`,
+                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.webp`,
                   }}
                 />
               </View>
@@ -191,9 +192,7 @@ const OTP = ({navigation, route}: any) => {
                     height: 50,
                     resizeMode: 'cover',
                   }}
-                  source={{
-                    uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
-                  }}
+                  source={LoaderImage}
                 />
               </View>}
             </View>

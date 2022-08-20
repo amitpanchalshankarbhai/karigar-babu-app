@@ -78,7 +78,7 @@ const Language = ({ navigation }: any) => {
               resizeMode: 'cover',
             }}
             source={{
-              uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/language.jpg`,
+              uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/language.webp`,
             }}
           />
 

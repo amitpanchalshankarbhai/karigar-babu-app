@@ -20,7 +20,7 @@ const NotFoundData = (props: any) => {
           resizeMode: 'cover',
         }}
         source={{
-          uri: 'http://assets.datahayinfotech.com/assets/images/NotFoundData.png',
+          uri: 'http://assets.datahayinfotech.com/assets/images/NotFoundData.webp',
         }}
       />
       <Text

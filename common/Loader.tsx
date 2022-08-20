@@ -4,6 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import LoaderImage from '../assets/loader.gif'
 const Loader = () => {
   return (
     <View
@@ -19,9 +20,7 @@ const Loader = () => {
           height: 100,
           resizeMode: 'cover',
         }}
-        source={{
-          uri: 'http://assets.datahayinfotech.com/assets/images/loader.gif',
-        }}
+        source={LoaderImage}
       />
     </View>
   );

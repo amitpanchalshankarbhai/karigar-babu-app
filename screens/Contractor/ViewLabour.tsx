@@ -31,6 +31,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 import Loader from '../../common/Loader';
 import {useTranslation} from 'react-i18next';
 import {ASSET_BASE_URL} from '../../URL';
+import { getStoreValue } from '../../common/LocalStorage';
 // import Payumoney, {HashGenerator} from 'react-native-payumoney';
 
 const ContractorObj = new ContractorApi();
@@ -79,7 +80,7 @@ const ViewLabour = ({navigation, route}: any) => {
             </TouchableOpacity>
           </View>
           <View style={styles.notification}>
-            <MoreIcon />
+            {/* <MoreIcon /> */}
           </View>
         </View>
 
@@ -101,7 +102,7 @@ const ViewLabour = ({navigation, route}: any) => {
                           uri: `https://assets.datahayinfotech.com/assets/storage/${jobInfo.profile_pic}`,
                         }
                       : {
-                          uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/userIcon.png`,
+                          uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/userIcon.webp`,
                         }
                   }
                 />
@@ -176,7 +177,7 @@ const ViewLabour = ({navigation, route}: any) => {
                   </View>
                   <ImageBackground
                     source={{
-                      uri: `https://assets.datahayinfotech.com/assets/images/UserInfoBlur.png`,
+                      uri: `https://assets.datahayinfotech.com/assets/images/UserInfoBlur.webp`,
                     }}
                     resizeMode="cover"
                     style={{
@@ -194,7 +195,7 @@ const ViewLabour = ({navigation, route}: any) => {
                         resizeMode: 'cover',
                       }}
                       source={{
-                        uri: `https://assets.datahayinfotech.com/assets/images/lock.png`,
+                        uri: `https://assets.datahayinfotech.com/assets/images/lock.webp`,
                       }}
                     />
                   </ImageBackground>
@@ -383,8 +384,8 @@ const ViewLabour = ({navigation, route}: any) => {
                       name: 'Karigar Babu',
                       prefill: {
                         email: '04amitpanchal@gmail.com',
-                        contact: '9687347050',
-                        name: 'Amit panchal',
+                        contact: `${labourData.mobile}`,
+                        name: `91${labourData?.full_name}`,
                       },
                       theme: {color: '#203c54'},
                     };
@@ -393,17 +394,17 @@ const ViewLabour = ({navigation, route}: any) => {
                         await ContractorObj.setOfflineStatus({
                           user_id: jobInfo?.unique_id,
                         });
-
+                        navigation.navigate('PaymentsSuccess');
                         // handle success
                         // alert(`Success: ${data.razorpay_payment_id}`);
                       })
                       .catch((error: any) => {
                         console.log(error + 'error');
-
+                        navigation.navigate('Contractor');
                         // handle failure
                         // alert(`Error: ${error.code} | ${error.description}`);
                       });
-                    navigation.navigate('PaymentsSuccess');
+                    
                   }}
                   style={styles.sendOtpBtn}>
                   <View>

@@ -34,7 +34,7 @@ const OnboardingOne = ({navigation}: any) => {
               resizeMode: 'cover',
             }}
             source={{
-              uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/Working.gif`,
+              uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/Working.gif`  ,
             }}
           />
           <View>

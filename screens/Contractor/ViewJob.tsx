@@ -64,9 +64,9 @@ const ViewJobs = ({navigation, route}: any) => {
             <BackArrowIcon />
           </TouchableOpacity>
         </View>
-        <View style={styles.notification}>
+        {/* <View style={styles.notification}>
           <MoreIcon />
-        </View>
+        </View> */}
       </View>
       <View style={styles.ViewJobDetailsContainer}>
         <View>

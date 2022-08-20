@@ -22,6 +22,8 @@ import {
   ExperienceSuitcaseIcon,
   SalaryIcon,
   FilterIcon,
+  BackArrowIcon,
+  MoreIcon,
 } from '../../common/icons';
 import BottomSheet from 'reanimated-bottom-sheet';
 import {Dropdown} from 'react-native-element-dropdown';
@@ -35,6 +37,7 @@ import NotFoundData from '../../common/components/NotFoundData';
 import Pagination from '../../common/components/Pagination';
 import {DataTable} from 'react-native-paper';
 import {ASSET_BASE_URL} from '../../URL';
+import moment from 'moment';
 
 const LabourObj = new LabourApi();
 const industryObj = new IndustryApi();
@@ -101,23 +104,25 @@ const LabourDashboard = ({navigation}: any) => {
   useEffect(() => {
     setJobs([]);
     setLoader(true);
-    const getLatestJobs = async () => {
-      const requestBody = {
-        user_id: await getStoreValue('userId'),
-        page: page,
+    setInterval(() => {
+      const getLatestJobs = async () => {
+        const requestBody = {
+          user_id: await getStoreValue('userId'),
+          page: page,
+        };
+        let response: any = await LabourObj.getLatestJobs(requestBody);
+        if (response?.data?.status == 404) {
+          setLoader(false);
+          console.log('response?.data?.data?.data', response?.data?.data?.data);
+        } else if (response?.data?.data?.data) {
+          setLoader(false);
+          setTotalPages(response?.data?.data?.last_page);
+          setJobs(response?.data?.data?.data);
+        }
       };
-      let response: any = await LabourObj.getLatestJobs(requestBody);
-
-      if (response?.data?.status == 404) {
-        setLoader(false);
-        console.log('response?.data?.data?.data', response?.data?.data?.data);
-      } else if (response?.data?.data?.data) {
-        setLoader(false);
-        setTotalPages(response?.data?.data?.last_page);
-        setJobs(response?.data?.data?.data);
-      }
-    };
-    getLatestJobs();
+      getLatestJobs();
+    }, 5000);
+   
   }, [page]);
 
   useEffect(() => {
@@ -646,7 +651,7 @@ const LabourDashboard = ({navigation}: any) => {
                                 }}>
                                 <WatchJobIcon />
                                 <Text style={{color: 'rgba(18, 18, 18, 0.35)'}}>
-                                  15 Hours ago
+                                {" "} Created on {moment().format('DD-MMM-YYYY')}
                                 </Text>
                               </View>
                               <View

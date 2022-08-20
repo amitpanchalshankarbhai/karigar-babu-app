@@ -10,20 +10,15 @@ import {
 } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import * as React from 'react';
-import { ColorSchemeName, View } from 'react-native';
+import { ColorSchemeName } from 'react-native';
 import AddWork from '../screens/Contractor/AddWork';
 import Login from '../screens/Login';
-
 import OTP from '../screens/OTP';
 import UserType from '../screens/UserType';
 import { RootStackParamList } from '../types';
-import BottomTabNavigator, {
+import {
   TabOneLabourNavigator,
 } from './LabourBottomTabNavigator';
-import ContractorDrawerNavigator from './ContractorDrawerNavigator';
-import DrawerNavigator from './ContractorDrawerNavigator';
-import LabourDrawerNavigator from './LabourDrawerNavigator';
-// import LinkingConfiguration from './LinkingConfiguration';
 import '../common/axios.config';
 import SignupContractor from '../screens/SignupContractor';
 import SignupLabour from '../screens/SignupLabour';
@@ -34,10 +29,8 @@ import { TabOneContractorNavigator } from './ContractorBottomNavigator';
 import SignupContractorAddress from '../screens/SignupContractorAddress';
 import SignupLabourAddress from '../screens/SignupLabourAddress';
 import { getStoreValue } from '../common/LocalStorage';
-import Dashboard from '../screens/Contractor/Dashboard';
 import Profile from '../screens/Profile';
 import EditProfile from '../screens/EditProfile';
-import WorkHistoty from '../screens/WorkHistoty';
 import FAQ from '../screens/FAQ';
 
 export default function Navigation({
@@ -47,7 +40,6 @@ export default function Navigation({
 }) {
   return (
     <NavigationContainer
-      // linking={LinkingConfiguration}
       theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <RootNavigator />
     </NavigationContainer>
@@ -60,7 +52,7 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   const [token, setToken] = React.useState<any>('');
-  const [userInfo, setUserInfo] = React.useState({});
+  const [userInfo, setUserInfo] = React.useState<any>({});
   React.useEffect(() => {
     const getToken = async () => {
       const token = await getStoreValue('token');
@@ -69,6 +61,7 @@ function RootNavigator() {
       setUserInfo(userInfo);
       setToken(token);
     };
+    debugger;
     getToken();
   }, []);
 
@@ -94,15 +87,17 @@ function RootNavigator() {
       {token && userInfo ? (
         <>
           <Stack.Screen
-            options={horizontalAnimation}
-            name="ContractorDashboard"
-            component={Dashboard}
-          />
-          <Stack.Screen
             name="Contractor"
             options={horizontalAnimation}
             component={TabOneContractorNavigator}
           />
+          <Stack.Screen
+            name="Labour"
+            options={horizontalAnimation}
+            component={TabOneLabourNavigator}
+          />
+          {/* {userInfo?.user_type == 1 ? () : ()} */}
+
           <Stack.Screen
             name="Profile"
             options={horizontalAnimation}
@@ -155,16 +150,7 @@ function RootNavigator() {
             options={horizontalAnimation}
             component={SignupLabourAddress}
           />
-          <Stack.Screen
-            name="Labour"
-            options={horizontalAnimation}
-            component={TabOneLabourNavigator}
-          />
-          <Stack.Screen
-            name="Root"
-            options={horizontalAnimation}
-            component={DrawerNavigator}
-          />
+
           <Stack.Screen
             name="AddWork"
             options={horizontalAnimation}
@@ -199,9 +185,14 @@ function RootNavigator() {
             component={Login}
           />
           <Stack.Screen
-            name="WorkHistory"
+            name="Contractor"
             options={horizontalAnimation}
-            component={WorkHistoty}
+            component={TabOneContractorNavigator}
+          />
+          <Stack.Screen
+            name="Labour"
+            options={horizontalAnimation}
+            component={TabOneLabourNavigator}
           />
           <Stack.Screen
             options={horizontalAnimation}
@@ -234,35 +225,26 @@ function RootNavigator() {
             component={SignupLabourAddress}
           />
           <Stack.Screen
-            name="ContractorDashboard"
-            options={horizontalAnimation}
-            component={Dashboard}
-          />
-          <Stack.Screen
-            name="Contractor"
-            options={horizontalAnimation}
-            component={TabOneContractorNavigator}
-          />
-          <Stack.Screen
             name="Profile"
             options={horizontalAnimation}
             component={Profile}
           />
           <Stack.Screen
+            name="FAQ"
+            component={FAQ}
+            options={{
+              headerShown: false,
+              headerTitle: 'Add Work',
+              headerTintColor: 'white',
+              headerStyle: {
+                backgroundColor: '#1a104c',
+              },
+            }}
+          />
+          <Stack.Screen
             name="EditProfile"
             options={horizontalAnimation}
             component={EditProfile}
-          />
-
-          <Stack.Screen
-            name="Labour"
-            options={horizontalAnimation}
-            component={TabOneLabourNavigator}
-          />
-          <Stack.Screen
-            name="Root"
-            options={horizontalAnimation}
-            component={DrawerNavigator}
           />
         </>
       )}

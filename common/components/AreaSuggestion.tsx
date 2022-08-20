@@ -14,12 +14,14 @@ import EvilIcons from 'react-native-vector-icons/EvilIcons';
 const API_KEY = 'AIzaSyBpo4YoLN5CWefZs8V_fWE_6uGftp-yY80';
 interface IProps {
   setLocation: (value: any) => void;
+  isNotSignup?: boolean;
 }
 
 interface IState {
   searchKeyword: any;
   searchResults: Array<string>;
   isShowingResults: Boolean;
+  
 }
 export default class App extends Component<IProps, IState> {
   constructor(props: any) {
@@ -64,7 +66,7 @@ export default class App extends Component<IProps, IState> {
             <TextInput
               placeholder="Search for an address"
               returnKeyType="search"
-              style={styles.searchBox}
+              style={this.props.isNotSignup ? styles.notSignupstyle : styles.searchBox}
               // placeholderTextColor="#000"
               onChangeText={text => this.searchLocation(text)}
               value={this.state.searchKeyword}
@@ -136,6 +138,13 @@ const styles = StyleSheet.create({
   },
   searchBox: {
     width: 250,
+    height: 40,
+    marginLeft: 5,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(0, 0, 0, 0.1);',
+  },
+  notSignupstyle : {
+    width: 290,
     height: 40,
     marginLeft: 5,
     borderBottomWidth: 1,

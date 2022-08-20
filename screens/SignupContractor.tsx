@@ -146,7 +146,7 @@ const SignupContractor = ({ navigation }: any) => {
                 <Image
                   style={styles.karigarLogo}
                   source={{
-                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.png`,
+                    uri: `https://assets.datahayinfotech.com/assets/images/karigar_babu/contactor-removebg-preview.webp`,
                   }}
                 />
               </View>
